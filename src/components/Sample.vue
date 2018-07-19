@@ -1,6 +1,7 @@
 <template>
  <div>
   <h1>{{title}}</h1>
+  <svg height="500" width="800"></svg>
  </div>
 </template>
 
@@ -15,47 +16,48 @@ export default {
             required: true,
         },
     },
+    data() {
+        return {
+           list: [1, 2, 3, 4, 8.5, 11, 7, 8, 9],
+        };
+    },
 
     mounted() {
-        const svg = d3
-            .select(this.$el)
-            .append('svg')
-            .attr('width', 500)
-            .attr('height', 270)
-            .append('g')
-            .attr('transform', 'translate(0, 10)');
-        const x = d3.scaleLinear().range([0, 430]);
-        const y = d3.scaleLinear().range([210, 0]);
-        d3.axisLeft().scale(x);
-        d3.axisTop().scale(y);
-        x.domain(d3.extent(data, (d, i) => i));
-        y.domain([0, d3.max(data, (d) => d)]);
-        const createPath = d3
-            .line()
-            .x((d, i) => x(i))
-            .y((d) => y(d));
-        svg.append('path').attr('d', createPath(data));
+        const max = Math.max(...this.list) + 2;
+        this.list.forEach((number, i) =>  {
+            const group = d3.select('svg').append('g').attr('id', 'group_' + number);
+            group.append('rect')
+            .attr('x', 75)
+            .attr('y', i * 25)
+            .attr('rx', 10)
+            .attr('ry', 10)
+            .attr('width', 50 * number)
+            .attr('height', 20)
+            .style('fill', d3.rgb(233, 180, i * 30))
 
-        d3.select('svg')
-        .append('circle')
-        .attr('r', 50)
-        .attr('cx', 100)
-        .attr('cy', 100)
-        .attr('id', 'test')
-        .style('fill', 'green');
+            group.append('rect')
+            .attr('x', 75)
+            .attr('y', i * 25)
+            .attr('rx', 10)
+            .attr('ry', 10)
+            .attr('width', 50 * max)
+            .attr('height', 20)
+            .style('opacity', .2)
+            .style('fill', d3.rgb(233, 180, i * 30))
 
-        d3.select('#test')
-        .transition().duration(2000).style('opacity', 0).attr('cy', 200);
-
+            group.append('text')
+            .attr('x', 0)
+            .attr('y', 15 + i * 25)
+            .text(`value ${number}`)
+        });
+        
     },
 };
 </script>
 
 <style lang="sass">
 svg
-  margin: 25px;
-  path
-    fill: none
-    stroke: #76BF8A
-    stroke-width: 3px
+    margin: 25px
+
+
 </style>

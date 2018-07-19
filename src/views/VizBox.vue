@@ -1,7 +1,6 @@
 <template>
   <div class="test">
-    <h1>This is the VizBox 🤖</h1>
-    <Sample title="YO"></Sample>
+    <Sample title="DDD"></Sample>
   </div>
 </template>
 
