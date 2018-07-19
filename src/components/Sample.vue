@@ -18,7 +18,7 @@ export default {
     },
     data() {
         return {
-           list: [1, 2, 3, 4, 8.5, 11, 7, 8, 9],
+           list: [1.1, 2.2, 3.4, 4.1, 8.5, 9.9, 7.1, 8.8, 9.4],
         };
     },
 
@@ -31,9 +31,14 @@ export default {
             .attr('y', i * 25)
             .attr('rx', 10)
             .attr('ry', 10)
-            .attr('width', 50 * number)
+            .attr('width', 0)
             .attr('height', 20)
             .style('fill', d3.rgb(233, 180, i * 30))
+
+            .transition()
+            .delay((max - number) * 50)
+            .duration(1000)
+            .attr("width", 50 * number)
 
             group.append('rect')
             .attr('x', 75)
@@ -48,7 +53,12 @@ export default {
             group.append('text')
             .attr('x', 0)
             .attr('y', 15 + i * 25)
-            .text(`value ${number}`)
+            .text(`${number}`)
+            .style('opacity', 0)
+            .transition()
+            .delay((max - number) * 50)
+            .duration(1000)
+            .style('opacity', 1)
         });
         
     },
