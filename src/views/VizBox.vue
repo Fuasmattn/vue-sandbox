@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <Sample title="DDD"></Sample>
+    <Sample title="Hauptwohnsitzbevölkerung Bezirksteile München"></Sample>
   </div>
 </template>
 
