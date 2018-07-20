@@ -26,14 +26,14 @@ export default {
 
     mounted() {
         const max = Math.max(...this.list.map(it => it.hauptwohnsitzbevölkerung)) + 2;
-        const factor = 1100 / max;
+        const factor = 900 / max;
         this.list.forEach((item, i) =>  {
             console.log(factor * item.hauptwohnsitzbevölkerung);
             const group = d3.select('svg')
             .append('g').attr('id', 'group_' + item.bezirksteil);
 
             group.append('rect')
-            .attr('x', 75)
+            .attr('x', 0)
             .attr('y', i * 25)
             .attr('rx', 10)
             .attr('ry', 10)
@@ -46,22 +46,37 @@ export default {
             .attr("width", factor * item.hauptwohnsitzbevölkerung)
 
             group.append('rect')
-            .attr('x', 75)
+            .attr('x', factor * item.hauptwohnsitzbevölkerung)
+            .attr('y', 10 + i * 25)
+            
+            .attr('width', 0)
+            .attr('height', 1)
+            .style('fill', 'black')
+            .style('opacity', .2)
+            .transition()
+            .duration(500)
+            .delay(1000)
+            .attr("width", 10)
+
+            group.append('rect')
+            .attr('x', 0)
             .attr('y', i * 25)
             .attr('rx', 10)
             .attr('ry', 10)
-            .attr('width', factor * max)
+            .attr('width', 1200)
             .attr('height', 20)
             .style('opacity', .2)
             .style('fill', d3.rgb(233, 180, i * 30))
 
             group.append('text')
-            .attr('x', 90)
+            .attr('x', 30 + factor * item.hauptwohnsitzbevölkerung)
             .attr('y', 15 + i * 25)
             .text(`${item.bezirksteil_bezeichnung.substr(5)}: ${item.hauptwohnsitzbevölkerung}`)
             .style('opacity', 0)
             .transition()
-            .duration(1000)
+            .delay(1000)
+            .duration(500)
+            .attr('x', 20 + factor * item.hauptwohnsitzbevölkerung)
             .style('opacity', 0.5)
         });
         
